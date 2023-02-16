@@ -3,8 +3,8 @@
 ## Group T04G06
 | Name             | Number    | E-Mail             |
 | ---------------- | --------- | ------------------ |
-| Pedro Balazeiro  | 202005097 | ...                |
-| Rúben Viana         | 202005108 | ...                |
+| Pedro Balazeiro  | 202005097 | up202005097@fe.up.pt                |
+| Rúben Viana      | 202005108 | up202005108@fe.up.pt                |
 
 ----
 
