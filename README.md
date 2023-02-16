@@ -1,10 +1,10 @@
 # CG 2022/2023
 
-## Group T0xG0y
+## Group T04G06
 | Name             | Number    | E-Mail             |
 | ---------------- | --------- | ------------------ |
-| John Doe         | 201901010 | ...                |
-| Jane Doe         | 201901011 | ...                |
+| Pedro Balazeiro  | 202005097 | ...                |
+| Rúben Viana         | 202005108 | ...                |
 
 ----
 
