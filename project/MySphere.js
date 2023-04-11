@@ -10,11 +10,13 @@ export class MySphere extends CGFobject {
    * @param  {CGFscene} scene - MyScene object
    * @param  {integer} slices - number of slices around Y axis
    * @param  {integer} stacks - number of stacks along Y axis, from the center to the poles (half of sphere)
+   * @param  {integer} side - visible side of the sphere (0 -> inside, 1 -> outside)
    */
-  constructor(scene, slices, stacks) {
+  constructor(scene, slices, stacks, side) {
     super(scene);
     this.latDivs = stacks * 2;
     this.longDivs = slices;
+    this.side = side;
 
     this.initBuffers();
   }
@@ -74,6 +76,12 @@ export class MySphere extends CGFobject {
       phi += phiInc;
     }
 
+    if (this.side == 0) {
+        this.vertices.reverse();
+        this.normals.reverse();
+        this.normals = this.normals.map(x => x * (-1));
+        this.texCoords = this.texCoords.map(x => x * (-1));
+    }
 
     this.primitiveType = this.scene.gl.TRIANGLES;
     this.initGLBuffers();
