@@ -33,11 +33,12 @@ export class MyScene extends CGFscene {
     this.panoramaTexture = new CGFtexture(this, "images/panorama4.jpg");
     this.panorama = new MyPanorama(this, this.panoramaTexture);
 
-    this.bird = new MyBird(this);
+    this.bird = new MyBird(this, 0, 0, 0, 0, 0);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
     this.scaleFactor = 1;
+    this.speedFactor = 1;
 
     this.enableTextures(true);
 
@@ -72,10 +73,37 @@ export class MyScene extends CGFscene {
     this.setShininess(10.0);
   }
 
+  checkKeys() {
+    var text = "Keys pressed: ";
+    var keysPressed = false;
+
+    // Check for key codes e.g. in https://keycode.info/
+    if (this.gui.isKeyPressed("KeyW")) {
+      this.bird.accelerate(0.01*this.speedFactor);
+    }
+    if (this.gui.isKeyPressed("KeyS")) {
+      this.bird.accelerate(-0.01*this.speedFactor);
+    }
+    if (this.gui.isKeyPressed("KeyA")) {this.bird.turn(-0.05*this.speedFactor);
+    }
+    if (this.gui.isKeyPressed("KeyD")) {
+      this.bird.turn(0.05*this.speedFactor);
+    }
+    if (this.gui.isKeyPressed("KeyR")) {
+        this.bird.reset();
+    }
+  }
+
   update(t){
+    //key pressed
+    this.checkKeys();
+
+    //bird update
+    this.bird.move();
+
     //bird up-down oscl
-    this.bird.yPos = Math.cos(t / 1000)/10;
-    this.bird.wingAngle = (Math.PI/4 + Math.cos(t / 1000)) % Math.PI/4;
+    this.bird.yPos = Math.cos((t*this.speedFactor) / 200)/10;
+    this.bird.wingAngle = (Math.PI/4 + Math.cos((t*this.speedFactor) / 200)) % Math.PI/4;
   }
 
   display() {
@@ -105,7 +133,11 @@ export class MyScene extends CGFscene {
     this.popMatrix();
 
     this.panorama.display();
+    
+    this.pushMatrix();
+    this.scale(this.scaleFactor, this.scaleFactor, this.scaleFactor);
     this.bird.display();
+    this.popMatrix();
 
     // ---- END Primitive drawing section
   }

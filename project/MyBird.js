@@ -12,7 +12,7 @@ import { MySphere } from './MySphere.js';
  * @param scene - Reference to MyScene object
  */
 export class MyBird extends CGFobject {
-	constructor(scene) {
+	constructor(scene, xPos, yPos, zPos, direction, speed) {
 		super(scene);
 
         this.quad = new MyQuad(scene);
@@ -52,13 +52,16 @@ export class MyBird extends CGFobject {
         this.xPos = 0;
         this.yPos = 0;
         this.zPos = 0;
+        this.speed = speed;
+        this.direction = direction;
 	}
 
     display() {
 
-        //-- bird position
+        //-- bird position nad
         this.scene.pushMatrix();
         this.scene.translate(this.xPos, this.yPos, this.zPos);
+        this.scene.rotate(-this.direction, 0, 1, 0);
 
         this.eyeTexture.apply();
 
@@ -173,8 +176,26 @@ export class MyBird extends CGFobject {
 
         this.scene.popMatrix();
         //--
+    }
 
+    turn(angle) {
+        this.direction = (this.direction + angle) % (2 * Math.PI);
+    }
 
+    accelerate(speed) {
+        this.speed += speed;
+    }
+
+    move() {
+        this.xPos += this.speed * Math.cos(this.direction);
+        this.zPos += this.speed * Math.sin(this.direction);
+    }
+
+    reset() {
+        this.xPos = 0;
+        this.zPos = 0;
+        this.direction = 0;
+        this.speed = 0;
     }
 }
 
