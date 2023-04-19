@@ -49,7 +49,7 @@ export class MyScene extends CGFscene {
 
 
     // set the scene update period 
-		this.setUpdatePeriod(10);
+		this.setUpdatePeriod(1000/60);
   }
   initLights() {
     this.lights[0].setPosition(0, 0, 5, 1);
@@ -99,11 +99,8 @@ export class MyScene extends CGFscene {
     this.checkKeys();
 
     //bird update
-    this.bird.move();
+    this.bird.update(t);
 
-    //bird up-down oscl
-    this.bird.yPos = Math.cos((t*this.speedFactor) / 200)/10;
-    this.bird.wingAngle = (Math.PI/4 + Math.cos((t*this.speedFactor) / 200)) % Math.PI/4;
   }
 
   display() {

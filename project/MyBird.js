@@ -46,8 +46,17 @@ export class MyBird extends CGFobject {
         this.eyeTexture.setTexture(new CGFtexture(scene, "images/birdEyeTexture.jpg"));
         this.eyeTexture.setTextureWrap('REPEAT', 'REPEAT');
 
+        this.hatTexture = new CGFappearance(scene);
+        this.hatTexture.setAmbient(1, 1, 1, 1.0);
+        this.hatTexture.setDiffuse(1, 1, 1, 1.0);
+        this.hatTexture.setSpecular(0, 0, 0, 1.0);
+        this.hatTexture.setShininess(10.0);
+        this.hatTexture.setTexture(new CGFtexture(scene, "images/birdHatTexture.jpg"));
+        this.hatTexture.setTextureWrap('REPEAT', 'REPEAT');
+
 
         this.wingAngle = Math.PI/8;
+        this.angleAdded = 0;
 
         this.xPos = 0;
         this.yPos = 0;
@@ -91,6 +100,14 @@ export class MyBird extends CGFobject {
         this.pyramidHex.display();
         this.scene.popMatrix();
 
+        //this.hatTexture.apply();
+
+        //hat
+        //this.scene.pushMatrix();
+        //this.scene.translate(0.7, 0.6, 0);
+        //this.scene.scale(0.2, 0.4, 0.2);
+        //this.cone.display();
+        //this.scene.popMatrix();
 
         this.bodyTexture.apply();
 
@@ -179,16 +196,24 @@ export class MyBird extends CGFobject {
     }
 
     turn(angle) {
-        this.direction = (this.direction + angle) % (2 * Math.PI);
+        this.angleAdded += (angle) % (2 * Math.PI);
     }
 
     accelerate(speed) {
         this.speed += speed;
+        if (this.speed < 0) this.speed = 0;
     }
 
-    move() {
+    update(time) {
         this.xPos += this.speed * Math.cos(this.direction);
         this.zPos += this.speed * Math.sin(this.direction);
+
+        this.direction += this.angleAdded
+        this.angleAdded = 0;
+
+        //bird up-down oscl
+        //this.yPos = Math.cos((time*this.scene.speedFactor) / 200)/10;
+        this.wingAngle = (Math.PI/4 + Math.cos((time*this.scene.speedFactor) / 200)) % Math.PI/4;  
     }
 
     reset() {
@@ -196,6 +221,7 @@ export class MyBird extends CGFobject {
         this.zPos = 0;
         this.direction = 0;
         this.speed = 0;
+        this.angleAdded = 0;
     }
 }
 
