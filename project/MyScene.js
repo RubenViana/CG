@@ -3,6 +3,7 @@ import { MyBird } from "./MyBird.js";
 import { MyPanorama } from "./MyPanorama.js";
 import { MyPlane } from "./MyPlane.js";
 import { MySphere } from "./MySphere.js";
+import { MyTerrain } from "./MyTerrain.js";
 
 /**
  * MyScene
@@ -28,7 +29,7 @@ export class MyScene extends CGFscene {
 
     //Initialize scene objects
     this.axis = new CGFaxis(this);
-    this.plane = new MyPlane(this, 30);
+    this.terrain = new MyTerrain(this);
 
     this.panoramaTexture = new CGFtexture(this, "images/panorama4.jpg");
     this.panorama = new MyPanorama(this, this.panoramaTexture);
@@ -41,11 +42,6 @@ export class MyScene extends CGFscene {
     this.speedFactor = 1;
 
     this.enableTextures(true);
-
-    this.texture = new CGFtexture(this, "images/terrain.jpg");
-    this.appearance = new CGFappearance(this);
-    this.appearance.setTexture(this.texture);
-    this.appearance.setTextureWrap('REPEAT', 'REPEAT');
 
 
     // set the scene update period 
@@ -84,7 +80,8 @@ export class MyScene extends CGFscene {
     if (this.gui.isKeyPressed("KeyS")) {
       this.bird.accelerate(-0.01*this.speedFactor);
     }
-    if (this.gui.isKeyPressed("KeyA")) {this.bird.turn(-0.05*this.speedFactor);
+    if (this.gui.isKeyPressed("KeyA")) {
+      this.bird.turn(-0.05*this.speedFactor);
     }
     if (this.gui.isKeyPressed("KeyD")) {
       this.bird.turn(0.05*this.speedFactor);
@@ -121,13 +118,7 @@ export class MyScene extends CGFscene {
 
     // ---- BEGIN Primitive drawing section
 
-    this.pushMatrix();
-    this.appearance.apply();
-    this.translate(0, -100, 0);
-    this.scale(400, 400, 400);
-    this.rotate(-Math.PI / 2.0, 1, 0, 0);
-    this.plane.display();
-    this.popMatrix();
+    this.terrain.display();
 
     this.panorama.display();
     
