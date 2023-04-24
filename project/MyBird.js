@@ -54,6 +54,9 @@ export class MyBird extends CGFobject {
         this.zPos = zPos;
         this.speed = speed;
         this.direction = direction;
+        this.invert = false;
+        this.tiltAngle = 0;
+        this.tilting = 0; // 0 -> not tilting, 2 -> tilt left, 1 -> tilt right
 	}
 
     display() {
@@ -62,6 +65,7 @@ export class MyBird extends CGFobject {
         this.scene.pushMatrix();
         this.scene.translate(this.xPos, this.yPos, this.zPos);
         this.scene.rotate(-this.direction, 0, 1, 0);
+        this.scene.rotate(this.tiltAngle, 1, 0, 0);
         this.scene.scale(this.scene.scaleFactor, this.scene.scaleFactor, this.scene.scaleFactor);        
 
         this.eyeTexture.apply();
@@ -163,20 +167,21 @@ export class MyBird extends CGFobject {
 
         // tail
         this.scene.pushMatrix();
-        this.scene.translate(-1, 0.4, 0);
-        this.scene.rotate(-Math.PI/4, 0, 0, 1);
-        this.scene.scale(1.05, 0.02, 0.2);
+        this.scene.translate(-0.8, 0, 0);
+        this.scene.rotate(this.wingAngle, 0, 0, 1);
+        this.scene.translate(0.6, 0, 0);
+        this.scene.scale(1.05, 0.05, 0.2);
         this.scene.rotate(-Math.PI/2, 0, 0, 1);
+        this.scene.translate(0, -1, 0);
+        this.scene.pushMatrix();
+        this.scene.scale(1.4, 1.4, 1.4);
+        this.scene.rotate(Math.PI/2, 1, 0, 0);
+        this.quad.display();
+        this.scene.popMatrix();
+        this.scene.pushMatrix();
         this.scene.rotate(Math.PI/4, 0, 1, 0);
         this.pyramidQuad.display();
         this.scene.popMatrix();
-
-        this.scene.pushMatrix();
-        this.scene.translate(-1, 0.4, 0);
-        this.scene.rotate(-Math.PI/4, 0, 0, 1);
-        this.scene.scale(1, 0.03, 0.28);
-        this.scene.rotate(-Math.PI/2, 0, 1, 0);
-        this.quad.display();
         this.scene.popMatrix();
 
         this.scene.popMatrix();
@@ -185,6 +190,10 @@ export class MyBird extends CGFobject {
 
     turn(angle) {
         this.angleAdded += (angle) % (2 * Math.PI);
+        
+        if (angle < 0) this.tilting = 2;
+        else if (angle > 0) this.tilting = 1;
+        else this.tilting = 0;
     }
 
     accelerate(speed) {
@@ -196,12 +205,38 @@ export class MyBird extends CGFobject {
         this.xPos += this.speed * Math.cos(this.direction);
         this.zPos += this.speed * Math.sin(this.direction);
 
-        this.direction += this.angleAdded
+        this.direction += this.angleAdded;
         this.angleAdded = 0;
-
+        
+        //tilt on rotation
+        if (this.tilting == 1){
+            this.tiltAngle += (this.speed*5*this.scene.speedFactor + 1) * (((time) % 1000) / 1000) * Math.PI/4 * this.scene.speedFactor;
+            if (this.tiltAngle >= Math.PI/4) this.tiltAngle = Math.PI/4;
+        }
+        else if (this.tilting == 2){
+            this.tiltAngle -= (this.speed*5*this.scene.speedFactor + 1) * (((time) % 1000) / 1000) * Math.PI/4 * this.scene.speedFactor;
+            if (this.tiltAngle <= -Math.PI/4) this.tiltAngle = -Math.PI/4;
+        }
+        else if (this.tilting == 0){
+            if (this.tiltAngle > 0)
+                this.tiltAngle -= (this.speed*5*this.scene.speedFactor + 1) * (((time) % 1000) / 1000) * Math.PI/4 * this.scene.speedFactor;
+            else if (this.tiltAngle < 0)
+                this.tiltAngle += (this.speed*5*this.scene.speedFactor + 1) * (((time) % 1000) / 1000) * Math.PI/4 * this.scene.speedFactor;
+            else
+                this.tiltAngle = 0;
+        }
+        this.tilting = 0;
         //bird up-down oscl
-        this.yPos = Math.cos((time*this.scene.speedFactor) / 200)/10;
-        this.wingAngle = (Math.PI/4 + Math.cos((time*this.scene.speedFactor) / 200)) % Math.PI/4;
+        if(this.invert){
+            this.yPos -= ((time*this.scene.speedFactor) % 1000) / 2000;
+            this.wingAngle -= (this.speed*5*this.scene.speedFactor + 1) * (((time) % 1000) / 1000) * Math.PI/2 * this.scene.speedFactor;
+            if(this.wingAngle <= -Math.PI/8) this.invert = false;
+          }
+          else{
+            this.yPos += ((time*this.scene.speedFactor) % 1000) / 2000;
+            this.wingAngle += (this.speed*5*this.scene.speedFactor + 1) * (((time) % 1000) / 1000 ) * Math.PI/2 * this.scene.speedFactor;
+            if(this.wingAngle >= (Math.PI/7)) this.invert = true;
+          }
     }
 
     reset() {
@@ -210,6 +245,8 @@ export class MyBird extends CGFobject {
         this.direction = 0;
         this.speed = 0;
         this.angleAdded = 0;
+        this.tiltAngle = 0;
+        this.tilting = 0;
     }
 }
 

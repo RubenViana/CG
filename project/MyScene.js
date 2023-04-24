@@ -43,7 +43,7 @@ export class MyScene extends CGFscene {
 
     this.enableTextures(true);
 
-
+    this.prevTime = 0;
     // set the scene update period 
 		this.setUpdatePeriod(1000/60);
   }
@@ -92,11 +92,13 @@ export class MyScene extends CGFscene {
   }
 
   update(t){
+    var delta = t - this.prevTime;
+    this.prevTime = t;
     //key pressed
     this.checkKeys();
 
     //bird update
-    this.bird.update(t);
+    this.bird.update(delta);
 
   }
 
