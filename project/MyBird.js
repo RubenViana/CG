@@ -66,6 +66,12 @@ export class MyBird extends CGFobject {
         this.tiltAngle = 0;
         this.tilting = 0; // 0 -> not tilting, 2 -> tilt left, 1 -> tilt right
         this.pawsAngle = 0;
+
+        this.egg = null;
+
+        this.picking = false;
+        this.down = false;
+        this.droping = false;
 	}
 
     display() {
@@ -260,6 +266,38 @@ export class MyBird extends CGFobject {
 
         this.scene.popMatrix();
         //--
+
+        this.scene.pushMatrix();
+        if (!this.droping){
+            this.scene.translate(this.xPos, this.yPos, this.zPos);
+            this.scene.rotate(-this.direction, 0, 1, 0);
+            this.scene.rotate(this.tiltAngle, 1, 0, 0);
+        }
+        if (this.egg != null)
+            this.egg.display();
+        this.scene.popMatrix();
+    }
+
+    pick() {
+        if (this.picking) return;
+
+        if (this.egg != null)
+            this.picking = false;
+        else{
+            this.picking = true;
+            this.down = true;
+        }
+    }
+
+    drop() {
+        if (this.picking || this.droping) return;
+        if (this.egg != null){
+            this.droping = true;
+            this.egg.setCoords(this.xPos - 0.3*Math.cos(this.direction), this.yPos - 1.1, this.zPos - 0.3*Math.sin(this.direction));
+        }
+        else{
+            this.droping = false;
+        }
     }
 
     turn(angle) {
@@ -292,12 +330,13 @@ export class MyBird extends CGFobject {
             if (this.tiltAngle <= -Math.PI/4) this.tiltAngle = -Math.PI/4;
         }
         else if (this.tilting == 0){
-            if (this.tiltAngle > 0)
+            if (this.tiltAngle > 0.01)
                 this.tiltAngle -= (this.speed*5*this.scene.speedFactor + 1) * (((time) % 1000) / 1000) * Math.PI/4 * this.scene.speedFactor;
-            else if (this.tiltAngle < 0)
+            else if (this.tiltAngle < -0.01)
                 this.tiltAngle += (this.speed*5*this.scene.speedFactor + 1) * (((time) % 1000) / 1000) * Math.PI/4 * this.scene.speedFactor;
-            else
+            else{
                 this.tiltAngle = 0;
+            }
         }
         this.tilting = 0;
         //bird up-down oscl
@@ -306,11 +345,64 @@ export class MyBird extends CGFobject {
             this.wingAngle -= (this.speed*5*this.scene.speedFactor + 1) * (((time) % 1000) / 1000) * Math.PI/2 * this.scene.speedFactor;
             if(this.wingAngle <= -Math.PI/8) this.invert = false;
           }
-          else{
+        else{
             this.yPos += ((time*this.scene.speedFactor) % 1000) / 2000;
             this.wingAngle += (this.speed*5*this.scene.speedFactor + 1) * (((time) % 1000) / 1000 ) * Math.PI/2 * this.scene.speedFactor;
             if(this.wingAngle >= (Math.PI/7)) this.invert = true;
-          }
+        }
+
+        if (this.picking || this.egg != null)
+            this.pawsAngle = Math.PI/2;
+        else
+            this.pawsAngle = 0;
+
+        if (this.picking){
+            if (this.down){
+                if (this.yPos < -60){
+                    this.checkForEgg();
+                    this.down = false;
+                    }
+                else
+                    this.yPos -= 6*((time*this.scene.speedFactor) % 1000) / 1000;
+            }
+            else {
+                if (this.yPos >= -50){
+                    this.yPos = -50;
+                    this.picking = false;
+                }
+                else
+                    this.yPos += 6*((time*this.scene.speedFactor) % 1000) / 1000;
+            }
+        }
+
+        if (this.droping){
+            if (this.egg.yPos < -61){
+                this.egg.yPos = -61;
+                if (Math.sqrt(Math.pow((this.egg.xPos - this.scene.nest.xPos), 2) + Math.pow((this.egg.zPos - this.scene.nest.zPos), 2)) <= 10){  //tmp sol
+                    this.scene.nest.eggs.push(this.egg);
+                    this.droping = false;
+                    this.egg = null;    
+                }
+                else{
+                    this.scene.eggs.push(this.egg);
+                    this.droping = false;
+                    this.egg = null;
+                }
+            }
+            else
+                this.egg.yPos -= 6*((time*this.scene.speedFactor) % 1000) / 1000;
+        }
+    }
+
+    checkForEgg(){
+        for (let i = 0; i < this.scene.eggs.length; i++) {
+            if (Math.sqrt(Math.pow((this.scene.eggs[i].xPos - this.xPos), 2) + Math.pow((this.scene.eggs[i].zPos - this.zPos), 2)) <= 5) {
+                this.egg = this.scene.eggs[i];
+                this.scene.eggs.splice(i, 1);
+                this.egg.setCoords(-0.3*Math.cos(this.direction), -1.1, -0.3*Math.sin(this.direction));
+                return;
+            }
+        }
     }
 
     reset() {
