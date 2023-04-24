@@ -46,6 +46,14 @@ export class MyBird extends CGFobject {
         this.eyeTexture.setTexture(new CGFtexture(scene, "images/birdEyeTexture.jpg"));
         this.eyeTexture.setTextureWrap('REPEAT', 'REPEAT');
 
+        this.pawsTexture = new CGFappearance(scene);
+        this.pawsTexture.setAmbient(1, 1, 1, 1.0);
+        this.pawsTexture.setDiffuse(1, 1, 1, 1.0);
+        this.pawsTexture.setSpecular(0.5, 0.5, 0.5, 1.0);
+        this.pawsTexture.setShininess(10.0);
+        this.pawsTexture.setTexture(new CGFtexture(scene, "images/birdPawsTexture.jpg"));
+        this.pawsTexture.setTextureWrap('REPEAT', 'REPEAT');
+
         this.wingAngle = Math.PI/8;
         this.angleAdded = 0;
 
@@ -57,6 +65,7 @@ export class MyBird extends CGFobject {
         this.invert = false;
         this.tiltAngle = 0;
         this.tilting = 0; // 0 -> not tilting, 2 -> tilt left, 1 -> tilt right
+        this.pawsAngle = 0;
 	}
 
     display() {
@@ -182,6 +191,71 @@ export class MyBird extends CGFobject {
         this.scene.rotate(Math.PI/4, 0, 1, 0);
         this.pyramidQuad.display();
         this.scene.popMatrix();
+        this.scene.popMatrix();
+
+        this.pawsTexture.apply();
+
+        // paws
+        this.scene.pushMatrix();
+        this.scene.translate(-0.3, -0.3, 0);
+        this.scene.rotate(this.pawsAngle, 0, 0, 1);
+
+        this.scene.pushMatrix();
+        this.scene.translate(-0.2, 0, -0.1);
+        this.scene.scale(0.4, 0.04, 0.04);
+        this.cube.display();
+        this.scene.popMatrix();
+        
+        this.scene.pushMatrix();
+        this.scene.translate(-0.2, 0, 0.1);
+        this.scene.scale(0.4, 0.04, 0.04);
+        this.cube.display();
+        this.scene.popMatrix();
+        
+
+        this.scene.pushMatrix();
+        this.scene.translate(-0.4, 0, -0.1);
+        this.scene.rotate(-Math.PI/2, 0, 0, 1);
+        this.scene.pushMatrix();
+        this.scene.translate(0.025, 0, 0);
+        this.scene.scale(0.15, 0.04, 0.04);
+        this.cube.display();
+        this.scene.popMatrix();
+        this.scene.pushMatrix();
+        this.scene.rotate(Math.PI/4, 0, 1, 0);
+        this.scene.translate(0.05, 0, 0);
+        this.scene.scale(0.1, 0.04, 0.04);
+        this.cube.display();
+        this.scene.popMatrix();
+        this.scene.pushMatrix();
+        this.scene.rotate(-Math.PI/4, 0, 1, 0);
+        this.scene.translate(0.05, 0, 0);
+        this.scene.scale(0.1, 0.04, 0.04);
+        this.cube.display();
+        this.scene.popMatrix();
+        this.scene.popMatrix();
+        this.scene.pushMatrix();
+        this.scene.translate(-0.4, 0, 0.1);
+        this.scene.rotate(-Math.PI/2, 0, 0, 1);
+        this.scene.pushMatrix();
+        this.scene.translate(0.025, 0, 0);
+        this.scene.scale(0.15, 0.04, 0.04);
+        this.cube.display();
+        this.scene.popMatrix();
+        this.scene.pushMatrix();
+        this.scene.rotate(Math.PI/4, 0, 1, 0);
+        this.scene.translate(0.05, 0, 0);
+        this.scene.scale(0.1, 0.04, 0.04);
+        this.cube.display();
+        this.scene.popMatrix();
+        this.scene.pushMatrix();
+        this.scene.rotate(-Math.PI/4, 0, 1, 0);
+        this.scene.translate(0.05, 0, 0);
+        this.scene.scale(0.1, 0.04, 0.04);
+        this.cube.display();
+        this.scene.popMatrix();
+        this.scene.popMatrix();
+
         this.scene.popMatrix();
 
         this.scene.popMatrix();
