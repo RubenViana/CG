@@ -1,4 +1,4 @@
-import {CGFobject, CGFappearance} from '../lib/CGF.js';
+import {CGFobject, CGFappearance, CGFtexture} from '../lib/CGF.js';
 import { MySphere } from './MySphere.js';
 
 /**
@@ -12,11 +12,13 @@ export class MyBirdEgg extends CGFobject {
 
         this.sphere = new MySphere(this.scene, 100, 100, 1);
 
-        this.color = new CGFappearance(scene);
-        this.color.setAmbient(1, 1, 1, 1.0);
-        this.color.setDiffuse(1, 1, 1, 1.0);
-        this.color.setSpecular(0, 0, 0, 1.0);
-        this.color.setShininess(10.0);
+        this.eggTexture = new CGFappearance(scene);
+        this.eggTexture.setAmbient(1, 1, 1, 1.0);
+        this.eggTexture.setDiffuse(1, 1, 1, 1.0);
+        this.eggTexture.setSpecular(0.5, 0.5, 0.5, 1.0);
+        this.eggTexture.setShininess(10.0);
+        this.eggTexture.setTexture(new CGFtexture(scene, "images/eggTexture.jpg"));
+        this.eggTexture.setTextureWrap('REPEAT', 'REPEAT');
 
         this.xPos = x;
         this.yPos = y;
@@ -31,7 +33,7 @@ export class MyBirdEgg extends CGFobject {
 
     display() {
 
-        this.color.apply();
+        this.eggTexture.apply();
         this.scene.pushMatrix();
         this.scene.translate(this.xPos, this.yPos, this.zPos);
         this.scene.scale(0.3, 0.4, 0.3);

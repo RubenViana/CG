@@ -376,14 +376,15 @@ export class MyBird extends CGFobject {
         }
 
         if (this.droping){
-            if (this.egg.yPos < -61){
-                this.egg.yPos = -61;
-                if (Math.sqrt(Math.pow((this.egg.xPos - this.scene.nest.xPos), 2) + Math.pow((this.egg.zPos - this.scene.nest.zPos), 2)) <= 10){  //tmp sol
+            if (this.egg.yPos < -60){
+                if (Math.sqrt(Math.pow((this.egg.xPos - this.scene.nest.xPos), 2) + Math.pow((this.egg.zPos - this.scene.nest.zPos), 2)) <= 3){
+                    this.egg.yPos = -60;
                     this.scene.nest.eggs.push(this.egg);
                     this.droping = false;
                     this.egg = null;    
                 }
                 else{
+                    this.egg.yPos = -61;
                     this.scene.eggs.push(this.egg);
                     this.droping = false;
                     this.egg = null;
@@ -396,10 +397,10 @@ export class MyBird extends CGFobject {
 
     checkForEgg(){
         for (let i = 0; i < this.scene.eggs.length; i++) {
-            if (Math.sqrt(Math.pow((this.scene.eggs[i].xPos - this.xPos), 2) + Math.pow((this.scene.eggs[i].zPos - this.zPos), 2)) <= 5) {
+            if (Math.sqrt(Math.pow((this.scene.eggs[i].xPos - this.xPos), 2) + Math.pow((this.scene.eggs[i].zPos - this.zPos), 2)) <= 2) {
                 this.egg = this.scene.eggs[i];
                 this.scene.eggs.splice(i, 1);
-                this.egg.setCoords(-0.3*Math.cos(this.direction), -1.1, -0.3*Math.sin(this.direction));
+                this.egg.setCoords(0, -1.1, 0);
                 return;
             }
         }

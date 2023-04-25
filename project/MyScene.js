@@ -36,7 +36,7 @@ export class MyScene extends CGFscene {
     this.panoramaTexture = new CGFtexture(this, "images/panorama4.jpg");
     this.panorama = new MyPanorama(this, this.panoramaTexture);
 
-    this.bird = new MyBird(this, -20, -50, 80, 0, 0);
+    this.bird = new MyBird(this, -20, -50, 50, 0, 0);
     this.nest = new MyNest(this, -20, -61, 50);
 
     // Eggs
@@ -73,7 +73,7 @@ export class MyScene extends CGFscene {
       1.5,
       0.1,
       1000,
-      vec3.fromValues(-10, -20, 10),
+      vec3.fromValues(-10, -40, 30),
       vec3.fromValues(0, -60, 60)
     );
   }
@@ -126,7 +126,7 @@ export class MyScene extends CGFscene {
 
   display() {
     if(this.birdCamera){ //third person settings
-      this.camera.setPosition([this.bird.xPos - 5*Math.cos(this.bird.direction), this.bird.yPos + 2, this.bird.zPos - 5*Math.sin(this.bird.direction)]);
+      // this.camera.setPosition([this.bird.xPos - 5*Math.cos(this.bird.direction), this.bird.yPos + 2, this.bird.zPos - 5*Math.sin(this.bird.direction)]);
       this.camera.setTarget([this.bird.xPos, this.bird.yPos, this.bird.zPos]);
     }
 
