@@ -6,6 +6,7 @@ import { MySphere } from "./MySphere.js";
 import { MyTerrain } from "./MyTerrain.js";
 import { MyBirdEgg } from "./MyBirdEgg.js";
 import { MyNest } from "./MyNest.js";
+import { MyBillboard } from "./MyBillboard.js";
 
 /**
  * MyScene
@@ -38,6 +39,8 @@ export class MyScene extends CGFscene {
 
     this.bird = new MyBird(this, -20, -50, 50, 0, 0);
     this.nest = new MyNest(this, -20, -61, 50);
+
+    this.billboardTree = new MyBillboard(this);
 
     // Eggs
     this.eggs = [];
@@ -129,7 +132,6 @@ export class MyScene extends CGFscene {
       // this.camera.setPosition([this.bird.xPos - 5*Math.cos(this.bird.direction), this.bird.yPos + 2, this.bird.zPos - 5*Math.sin(this.bird.direction)]);
       this.camera.setTarget([this.bird.xPos, this.bird.yPos, this.bird.zPos]);
     }
-
     // ---- BEGIN Background, camera and axis setup
     // Clear image and depth buffer everytime we update the scene
     this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
@@ -159,6 +161,10 @@ export class MyScene extends CGFscene {
       this.pushMatrix();
       this.eggs[i].display();
       this.popMatrix();
+    }
+
+    for (let i = 0; i < 4; i++) {
+      this.billboardTree.display(-30, -52, 40 + i*20);
     }
 
     // ---- END Primitive drawing section
