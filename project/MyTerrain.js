@@ -9,8 +9,8 @@ export class MyTerrain extends CGFobject {
 		super(scene);
 
 		this.plane = new MyPlane(scene, 30);
-        this.texture = new CGFtexture(scene, "images/terrain.jpg");
-        this.texture1 = new CGFtexture(scene, "images/heightmap2.jpg");
+        this.texture = new CGFtexture(scene, "images/terrain2.jpg");
+        this.texture1 = new CGFtexture(scene, "images/heightmap3.jpg");
         this.texture2 = new CGFtexture(scene, "images/altimetry.png");
         this.appearance = new CGFappearance(scene);
         this.appearance.setTexture(this.texture);
