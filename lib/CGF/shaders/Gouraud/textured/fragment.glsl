@@ -21,6 +21,6 @@ void main() {
 	else
 		fragColor = vFinalColor;
 	
-	if (fragColor.a < 1.0)
+	if (fragColor.a < 0.8)
 		discard;
 }

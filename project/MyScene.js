@@ -6,7 +6,8 @@ import { MySphere } from "./MySphere.js";
 import { MyTerrain } from "./MyTerrain.js";
 import { MyBirdEgg } from "./MyBirdEgg.js";
 import { MyNest } from "./MyNest.js";
-import { MyBillboard } from "./MyBillboard.js";
+import { MyTreeGroupPatch } from "./MyTreeGroupPatch.js";
+import { MyTreeRowPatch } from "./MyTreeRowPatch.js";
 
 /**
  * MyScene
@@ -40,12 +41,13 @@ export class MyScene extends CGFscene {
     this.bird = new MyBird(this, -20, -50, 50, 0, 0);
     this.nest = new MyNest(this, -20, -61, 50);
 
-    this.billboardTree = new MyBillboard(this);
+    this.treeGroupPatch = new MyTreeGroupPatch(this);
+    this.treeRowPatch = new MyTreeRowPatch(this);
 
     // Eggs
     this.eggs = [];
-    this.egg1 = new MyBirdEgg(this, -20, -61, 80);
-    this.egg2 = new MyBirdEgg(this, 10, -61, 90);
+    this.egg1 = new MyBirdEgg(this, -20, -61, 70);
+    this.egg2 = new MyBirdEgg(this, 10, -61, 60);
     this.egg3 = new MyBirdEgg(this, 20, -61, 50);
     this.egg4 = new MyBirdEgg(this, 30, -61, 70);
     this.eggs.push(this.egg1);
@@ -163,9 +165,9 @@ export class MyScene extends CGFscene {
       this.popMatrix();
     }
 
-    for (let i = 0; i < 4; i++) {
-      this.billboardTree.display(-30, -52, 40 + i*20);
-    }
+    this.treeGroupPatch.display();
+
+    this.treeRowPatch.display();
 
     // ---- END Primitive drawing section
   }
