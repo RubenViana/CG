@@ -19,16 +19,18 @@ export class MyBird extends CGFobject {
         this.cube = new MyUnitCubeQuad(scene);
         this.pyramidQuad = new MyPyramid(scene, 4, 1);
         this.pyramidHex = new MyPyramid(scene, 6, 1);
-        this.cone = new MyCone(scene, 10, 1);
+        this.pica = new MyPyramid(scene, 3, 1);
         this.body = new MySphere(scene, 9, 10);
         this.head = new MySphere(scene, 10, 10);
         this.wing = new MySphere(scene, 10, 10);
 
         this.color = new CGFappearance(scene);
         this.color.setAmbient(1, 1, 1, 1.0);
-        this.color.setDiffuse(0.6, 1, 0, 1.0);
+        this.color.setDiffuse(1, 1, 1, 1.0);
         this.color.setSpecular(0, 0, 0, 1.0);
         this.color.setShininess(10.0);
+        this.color.setTexture(new CGFtexture(scene, "images/orange.avif"));
+        this.color.setTextureWrap('REPEAT', 'REPEAT');
 
         this.bodyTexture = new CGFappearance(scene);
         this.bodyTexture.setAmbient(1, 1, 1, 1.0);
@@ -103,15 +105,23 @@ export class MyBird extends CGFobject {
 
         this.color.apply();
 
-        // pica milho
-        this.scene.pushMatrix();
-        this.scene.translate(0.85, 0.25, 0);
-        this.scene.scale(0.3, 0.1, 0.16);
-        this.scene.rotate(-Math.PI/2, 0, 0, 1);
-        this.cone.display();
-        this.scene.popMatrix();
+       // pica milho
+       this.scene.pushMatrix();
+       this.scene.translate(0.85, 0.26, 0);
+       this.scene.scale(0.3, 0.1, 0.16);
+       this.scene.rotate(-Math.PI/2, 0, 0, 1);
+       this.pica.display();
+       this.scene.popMatrix();
 
-        this.bodyTexture.apply();
+       this.scene.pushMatrix();
+       this.scene.translate(0.85, 0.34, 0);
+       this.scene.scale(0.3, 0.15, 0.16);
+       this.scene.rotate(-Math.PI/2, 0, 0, 1);
+       this.scene.rotate(Math.PI/3, 0, 1, 0);
+       this.pica.display();
+       this.scene.popMatrix();
+
+       this.bodyTexture.apply();
 
         // head
         this.scene.pushMatrix();
