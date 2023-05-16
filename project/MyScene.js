@@ -38,7 +38,7 @@ export class MyScene extends CGFscene {
     this.panoramaTexture = new CGFtexture(this, "images/panorama4.jpg");
     this.panorama = new MyPanorama(this, this.panoramaTexture);
 
-    this.bird = new MyBird(this, -20, -50, 50, 0, 0);
+    this.bird = new MyBird(this, -20, -50, 70, 0, 0);
     this.nest = new MyNest(this, -20, -61, 50);
 
     this.treeGroupPatch = new MyTreeGroupPatch(this);
@@ -46,10 +46,10 @@ export class MyScene extends CGFscene {
 
     // Eggs
     this.eggs = [];
-    this.egg1 = new MyBirdEgg(this, -20, -61, 70);
-    this.egg2 = new MyBirdEgg(this, 10, -61, 60);
-    this.egg3 = new MyBirdEgg(this, 20, -61, 50);
-    this.egg4 = new MyBirdEgg(this, 30, -61, 70);
+    this.egg1 = new MyBirdEgg(this, -20, -61.5, 70);
+    this.egg2 = new MyBirdEgg(this, 10, -61.5, 60);
+    this.egg3 = new MyBirdEgg(this, 20, -61.5, 50);
+    this.egg4 = new MyBirdEgg(this, 30, -61.5, 70);
     this.eggs.push(this.egg1);
     this.eggs.push(this.egg2);
     this.eggs.push(this.egg3);

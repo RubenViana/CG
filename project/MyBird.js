@@ -386,15 +386,15 @@ export class MyBird extends CGFobject {
         }
 
         if (this.droping){
-            if (this.egg.yPos < -60){
-                if (Math.sqrt(Math.pow((this.egg.xPos - this.scene.nest.xPos), 2) + Math.pow((this.egg.zPos - this.scene.nest.zPos), 2)) <= 3){
-                    this.egg.yPos = -60;
+            if (this.egg.yPos < -61){
+                if (Math.sqrt(Math.pow((this.egg.xPos - this.scene.nest.xPos), 2) + Math.pow((this.egg.zPos - this.scene.nest.zPos), 2)) <= 2){
+                    this.egg.yPos = -61.3;
                     this.scene.nest.eggs.push(this.egg);
                     this.droping = false;
                     this.egg = null;    
                 }
                 else{
-                    this.egg.yPos = -61;
+                    this.egg.yPos = -61.5;
                     this.scene.eggs.push(this.egg);
                     this.droping = false;
                     this.egg = null;
