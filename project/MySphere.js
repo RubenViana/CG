@@ -12,11 +12,12 @@ export class MySphere extends CGFobject {
    * @param  {integer} stacks - number of stacks along Y axis, from the center to the poles (half of sphere)
    * @param  {integer} side - visible side of the sphere (0 -> inside, 1 -> outside)
    */
-  constructor(scene, slices, stacks, side) {
+  constructor(scene, slices, stacks, side, radius = 1) {
     super(scene);
     this.latDivs = stacks * 2;
     this.longDivs = slices;
     this.side = side;
+    this.radius = radius;
 
     this.initBuffers();
   }
@@ -33,7 +34,7 @@ export class MySphere extends CGFobject {
 
     var phi = 0;
     var theta = 0;
-    var phiInc = Math.PI / this.latDivs;
+    var phiInc = (Math.PI/this.radius) / this.latDivs;
     var thetaInc = (2 * Math.PI) / this.longDivs;
     var latVertices = this.longDivs + 1;
 
