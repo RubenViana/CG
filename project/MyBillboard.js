@@ -54,8 +54,6 @@ export class MyBillboard extends CGFobject {
         this.scene.translate(0, 0.5, 0);
         this.quad.display();
         this.scene.popMatrix();
-
-        this.scene.setActiveShader(this.scene.defaultShader);
         
     }
 }

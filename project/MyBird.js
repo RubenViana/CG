@@ -70,10 +70,12 @@ export class MyBird extends CGFobject {
         this.pawsAngle = 0;
 
         this.egg = null;
+        this.eggSpeed = speed;
 
         this.picking = false;
         this.down = false;
         this.droping = false;
+        
 	}
 
     display() {
@@ -384,7 +386,7 @@ export class MyBird extends CGFobject {
                     this.yPos += 6*((time*this.scene.speedFactor) % 1000) / 1000;
             }
         }
-
+        
         if (this.droping){
             if (this.egg.yPos < -61){
                 if (Math.sqrt(Math.pow((this.egg.xPos - this.scene.nest.xPos), 2) + Math.pow((this.egg.zPos - this.scene.nest.zPos), 2)) <= 2){
@@ -400,8 +402,14 @@ export class MyBird extends CGFobject {
                     this.egg = null;
                 }
             }
-            else
+            else{
                 this.egg.yPos -= 6*((time*this.scene.speedFactor) % 1000) / 1000;
+                this.egg.xPos += (this.eggSpeed * ((this.scene.prevTime + time) % 2000) / 1000) * Math.cos(this.direction);
+                this.egg.zPos += (this.eggSpeed * ((this.scene.prevTime + time) % 2000) / 1000) * Math.sin(this.direction);
+            }
+        }
+        else {
+            this.eggSpeed = this.speed;
         }
     }
 
