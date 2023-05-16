@@ -75,6 +75,8 @@ export class MyBird extends CGFobject {
         this.picking = false;
         this.down = false;
         this.droping = false;
+
+        this.temp = speed;
         
 	}
 
@@ -324,7 +326,7 @@ export class MyBird extends CGFobject {
         this.speed += speed;
         if (this.speed < 0) this.speed = 0;
     }
-
+    
     update(time) {
         this.xPos += this.speed * Math.cos(this.direction);
         this.zPos += this.speed * Math.sin(this.direction);
@@ -388,6 +390,8 @@ export class MyBird extends CGFobject {
         }
         
         if (this.droping){
+            this.speed = 0;
+            this.temp += 1;
             if (this.egg.yPos < -61){
                 if (Math.sqrt(Math.pow((this.egg.xPos - this.scene.nest.xPos), 2) + Math.pow((this.egg.zPos - this.scene.nest.zPos), 2)) <= 2){
                     this.egg.yPos = -61.3;
@@ -403,9 +407,9 @@ export class MyBird extends CGFobject {
                 }
             }
             else{
-                this.egg.yPos -= 6*((time*this.scene.speedFactor) % 1000) / 1000;
-                this.egg.xPos += (this.eggSpeed * ((this.scene.prevTime + time) % 2000) / 1000) * Math.cos(this.direction);
-                this.egg.zPos += (this.eggSpeed * ((this.scene.prevTime + time) % 2000) / 1000) * Math.sin(this.direction);
+                this.egg.yPos -= (this.temp^5)*(((this.eggSpeed*time) % 1000) / 1000);
+                this.egg.xPos += 3*(this.eggSpeed * time * Math.cos(this.direction)% 100) / 100;
+                this.egg.zPos += 3*(this.eggSpeed * time * Math.sin(this.direction)% 100) / 100;
             }
         }
         else {
