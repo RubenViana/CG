@@ -60,6 +60,25 @@ export class MyScene extends CGFscene {
     this.scaleFactor = 1;
     this.speedFactor = 1;
     this.birdCamera = false;
+    this.selectedCamera = 0;
+
+    this.cameraTargetsIds = {
+      "Free": 0,
+      "Bird": 1,
+      "Nest": 2,
+      "Eggs": 3,
+      "Tree Group": 4,
+      "Tree Row": 5
+    };
+
+    this.cameraTargetsPos = [
+      [0, 0, 0], 
+      [this.bird.xPos, this.bird.yPos, this.bird.zPos],
+      [this.nest.xPos, this.nest.yPos, this.nest.zPos],
+      [10, -61.5, 62.5],
+      [65, -63, 45],
+      [-6, -63, 80]
+    ];
 
     this.enableTextures(true);
 
@@ -78,8 +97,8 @@ export class MyScene extends CGFscene {
       1.5,
       0.1,
       1000,
-      vec3.fromValues(-10, -40, 30),
-      vec3.fromValues(0, -60, 60)
+      vec3.fromValues(-6, -40, 8),
+      vec3.fromValues(5, -55, 33)
     );
   }
   setDefaultAppearance() {
@@ -87,6 +106,10 @@ export class MyScene extends CGFscene {
     this.setDiffuse(0.2, 0.4, 0.8, 1.0);
     this.setSpecular(0.2, 0.4, 0.8, 1.0);
     this.setShininess(10.0);
+  }
+
+  updateCameraTargetBirdPos() {
+    this.cameraTargetsPos[1] = [this.bird.xPos, this.bird.yPos, this.bird.zPos];
   }
 
   checkKeys() {
@@ -125,15 +148,17 @@ export class MyScene extends CGFscene {
     this.checkKeys();
 
     //bird update
-    this.bird.update(delta);
+    this.bird.update(delta*this.speedFactor);
 
   }
 
   display() {
-    if(this.birdCamera){ //third person settings
-      // this.camera.setPosition([this.bird.xPos - 5*Math.cos(this.bird.direction), this.bird.yPos + 2, this.bird.zPos - 5*Math.sin(this.bird.direction)]);
-      this.camera.setTarget([this.bird.xPos, this.bird.yPos, this.bird.zPos]);
-    }
+    //to update bird moving position
+    this.updateCameraTargetBirdPos();
+    //set camera target according to selected camera
+    if (this.selectedCamera != 0)
+      this.camera.setTarget(this.cameraTargetsPos[this.selectedCamera]);
+
     // ---- BEGIN Background, camera and axis setup
     // Clear image and depth buffer everytime we update the scene
     this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);

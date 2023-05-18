@@ -19,7 +19,9 @@ export class MyInterface extends CGFinterface {
 
         //Checkbox element in GUI
         this.gui.add(this.scene, 'displayAxis').name('Display Axis');
-        this.gui.add(this.scene, 'birdCamera').name('Bird Camera');
+
+        //Dropdown for camera target
+        this.gui.add(this.scene, 'selectedCamera', this.scene.cameraTargetsIds).name('Camera Target');
 
         //Slider element in GUI
         this.gui.add(this.scene, 'scaleFactor', 0.5, 3).name('Scale Factor');

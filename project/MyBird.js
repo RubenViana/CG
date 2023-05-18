@@ -336,18 +336,18 @@ export class MyBird extends CGFobject {
         
         //tilt on rotation
         if (this.tilting == 1){
-            this.tiltAngle += (this.speed*5*this.scene.speedFactor + 1) * (((time) % 1000) / 1000) * Math.PI/4 * this.scene.speedFactor;
+            this.tiltAngle += (this.speed*5 + 1) * (((time) % 1000) / 1000) * Math.PI/4;
             if (this.tiltAngle >= Math.PI/4) this.tiltAngle = Math.PI/4;
         }
         else if (this.tilting == 2){
-            this.tiltAngle -= (this.speed*5*this.scene.speedFactor + 1) * (((time) % 1000) / 1000) * Math.PI/4 * this.scene.speedFactor;
+            this.tiltAngle -= (this.speed*5 + 1) * (((time) % 1000) / 1000) * Math.PI/4;
             if (this.tiltAngle <= -Math.PI/4) this.tiltAngle = -Math.PI/4;
         }
         else if (this.tilting == 0){
             if (this.tiltAngle > 0.01)
-                this.tiltAngle -= (this.speed*5*this.scene.speedFactor + 1) * (((time) % 1000) / 1000) * Math.PI/4 * this.scene.speedFactor;
+                this.tiltAngle -= (this.speed*5 + 1) * (((time) % 1000) / 1000) * Math.PI/4;
             else if (this.tiltAngle < -0.01)
-                this.tiltAngle += (this.speed*5*this.scene.speedFactor + 1) * (((time) % 1000) / 1000) * Math.PI/4 * this.scene.speedFactor;
+                this.tiltAngle += (this.speed*5 + 1) * (((time) % 1000) / 1000) * Math.PI/4;
             else{
                 this.tiltAngle = 0;
             }
@@ -355,13 +355,13 @@ export class MyBird extends CGFobject {
         this.tilting = 0;
         //bird up-down oscl
         if(this.invert){
-            this.yPos -= ((time*this.scene.speedFactor) % 1000) / 2000;
-            this.wingAngle -= (this.speed*5*this.scene.speedFactor + 1) * (((time) % 1000) / 1000) * Math.PI/2 * this.scene.speedFactor;
+            this.yPos -= ((time) % 1000) / 2000;
+            this.wingAngle -= (this.speed*5 + 1) * (((time) % 1000) / 1000) * Math.PI/2;
             if(this.wingAngle <= -Math.PI/8) this.invert = false;
           }
         else{
-            this.yPos += ((time*this.scene.speedFactor) % 1000) / 2000;
-            this.wingAngle += (this.speed*5*this.scene.speedFactor + 1) * (((time) % 1000) / 1000 ) * Math.PI/2 * this.scene.speedFactor;
+            this.yPos += ((time) % 1000) / 2000;
+            this.wingAngle += (this.speed*5 + 1) * (((time) % 1000) / 1000 ) * Math.PI/2;
             if(this.wingAngle >= (Math.PI/7)) this.invert = true;
         }
 
@@ -377,7 +377,7 @@ export class MyBird extends CGFobject {
                     this.down = false;
                     }
                 else
-                    this.yPos -= 6*((time*this.scene.speedFactor) % 1000) / 1000;
+                    this.yPos -= 6*((time) % 1000) / 1000;
             }
             else {
                 if (this.yPos >= -50){
@@ -385,7 +385,7 @@ export class MyBird extends CGFobject {
                     this.picking = false;
                 }
                 else
-                    this.yPos += 6*((time*this.scene.speedFactor) % 1000) / 1000;
+                    this.yPos += 6*((time) % 1000) / 1000;
             }
         }
         
@@ -406,7 +406,7 @@ export class MyBird extends CGFobject {
                 }
             }
             else{
-                this.egg.yPos -= (this.temp^5)*((((time)) % 1000) / 1000);
+                this.egg.yPos -= (3*this.temp^5)*(((time) % 1000) / 1000);
                 this.egg.xPos += 10*(this.eggSpeed * time * Math.cos(this.direction)% 100) / 100;
                 this.egg.zPos += 10*(this.eggSpeed * time * Math.sin(this.direction)% 100) / 100;
             }
@@ -429,8 +429,9 @@ export class MyBird extends CGFobject {
     }
 
     reset() {
-        this.xPos = 0;
-        this.zPos = 0;
+        this.xPos = -20;
+        this.yPos = -50;
+        this.zPos = 70;
         this.direction = 0;
         this.speed = 0;
         this.angleAdded = 0;

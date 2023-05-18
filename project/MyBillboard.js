@@ -37,19 +37,18 @@ export class MyBillboard extends CGFobject {
     display(x, y, z, textureToApply = 0)
     {   
         
-        const toCamera = vec3.sub(vec3.create(), this.scene.camera.position, [x,y,z]);
+        const toCamera = vec3.sub(vec3.create(), [this.scene.camera.position[0], 0, this.scene.camera.position[2]], [x,0,z]);
         vec3.normalize(toCamera, toCamera); 
 
         const rotationAngle = Math.acos(vec3.dot([0,0,1], toCamera));
 
         const rotationAxis = vec3.cross(vec3.create(), [0,0,1], toCamera);
-        vec3.normalize(rotationAxis, rotationAxis);
         
         this.textures[textureToApply].apply();
 
         this.scene.pushMatrix();
         this.scene.translate(x, y, z);
-        this.scene.rotate(rotationAngle, 0, rotationAxis[1], 0);
+        this.scene.rotate(rotationAngle, rotationAxis[0], rotationAxis[1], rotationAxis[2]);
         this.scene.scale(12, 12, 12);
         this.scene.translate(0, 0.5, 0);
         this.quad.display();
