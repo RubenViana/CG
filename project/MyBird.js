@@ -59,9 +59,9 @@ export class MyBird extends CGFobject {
         this.wingAngle = Math.PI/8;
         this.angleAdded = 0;
 
-        this.xPos = xPos;
-        this.yPos = yPos;
-        this.zPos = zPos;
+        this.xPos = this.x0Pos = xPos;
+        this.yPos = this.y0Pos = yPos;
+        this.zPos = this.z0Pos = zPos;
         this.speed = speed;
         this.direction = direction;
         this.invert = false;
@@ -429,9 +429,9 @@ export class MyBird extends CGFobject {
     }
 
     reset() {
-        this.xPos = -20;
-        this.yPos = -50;
-        this.zPos = 70;
+        this.xPos = this.x0Pos;
+        this.yPos = this.y0Pos;
+        this.zPos = this.z0Pos;
         this.direction = 0;
         this.speed = 0;
         this.angleAdded = 0;
