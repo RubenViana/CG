@@ -60,7 +60,7 @@ export class MyScene extends CGFscene {
     this.scaleFactor = 1;
     this.speedFactor = 1;
     this.birdCamera = false;
-    this.selectedCamera = 1;
+    this.selectedCamera = 0;
 
     this.cameraTargetsIds = {
       "Free": 0,
@@ -97,7 +97,7 @@ export class MyScene extends CGFscene {
       1.5,
       0.1,
       1000,
-      vec3.fromValues(-15, -47, 65),
+      vec3.fromValues(0, 0, 0),
       vec3.fromValues(5, -55, 33)
     );
   }
